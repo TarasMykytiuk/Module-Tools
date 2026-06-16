@@ -40,7 +40,12 @@ async function logFilesInfo(files, flag) {
     for (const fileName of files) {
         let fileOutput = '';
         let filePath = dir + "/" + fileName;
-        let file = await fs.readFile(filePath, "utf-8");
+        let file;
+        try {
+            file = await fs.readFile(filePath, "utf-8");
+        } catch (error) {
+            console.log(error);
+        }
         let linesNum = countLinesInString(file);
         let wordsNum = countWordsInString(file);
         let bytes = file.length;

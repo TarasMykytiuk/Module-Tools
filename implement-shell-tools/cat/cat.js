@@ -17,7 +17,12 @@ displayFiles(paths, flags);
 async function displayFiles(paths, flags) {
     let content = '';
     for (let i = 0; i < paths.length; i++) {
-        content += await fs.readFile(paths[i], "utf-8");
+        try {
+            content += await fs.readFile(paths[i], "utf-8");
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     const lines = content.split("\n");
@@ -29,12 +34,11 @@ async function displayFiles(paths, flags) {
         let output = lines[i];
         if (
             (flags.includes("-n") && !flags.includes("-b")) ||
-            (flags.includes("-b") && lines[i] != "")
+            (flags.includes("-b") && lines[i] !== "")
         ) {
-            output = "     " + (lineNumber).toString() + " " + lines[i];
+            output = (lineNumber).toString().padStart(6) + "\t" + lines[i];
             lineNumber++;
         }
         console.log(output);
     }
 }
-

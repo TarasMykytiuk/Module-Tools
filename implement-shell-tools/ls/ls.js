@@ -15,8 +15,11 @@ for (let i = 0; i < argv.length; i++) {
 if (path == '') path = currentDir;
 
 const content = await fs.readdir(path);
+const visible = content.filter((element) => {
+    return element[0] === ".";
+})
 
-if (flags.includes("-l")) {
+if (flags.includes("-1")) {
     for (let i = 0; i < content.length; i++) {
         let line = content[i];
         if (!flags.includes("-a") && line[0] == ".") continue;
