@@ -19,10 +19,11 @@ def main():
     try:
         getattr(cowsay, animal)(message)
     except Exception as e:
+        possible_animals = cowsay.char_names
         if animal == "":
-            print("error: argument --animal: invalid choice: empty string, choose from 'beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty', 'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 'turkey', 'turtle', 'tux'")
+            print("error: argument --animal: invalid choice: empty string, choose from " + possible_animals)
         else:
-            print("error: argument --animal: invalid choice: " + animal + ", choose from 'beavis', 'cheese', 'cow', 'daemon', 'dragon', 'fox', 'ghostbusters', 'kitty', 'meow', 'miki', 'milk', 'octopus', 'pig', 'stegosaurus', 'stimpy', 'trex', 'turkey', 'turtle', 'tux'")
+            print("error: argument --animal: invalid choice: " + animal + ", choose from " + possible_animals)
 
 if __name__ == "__main__":
     main()
