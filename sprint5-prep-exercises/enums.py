@@ -61,7 +61,11 @@ def inputPerson() -> dict:
 
 
 def main():
-    input = inputPerson()
+    try:
+        input = inputPerson()
+    except:
+        print("Invalid input")
+        return
     if len(input) == 0:
         return
 

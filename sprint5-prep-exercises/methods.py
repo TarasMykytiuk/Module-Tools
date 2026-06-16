@@ -1,5 +1,7 @@
 from datetime import date
-
+# function is an independent reusable block of code.
+# method is a function that belongs to a class.
+# .is_adult() belongs to Person class --> it is a method.
 
 class Person:
 
