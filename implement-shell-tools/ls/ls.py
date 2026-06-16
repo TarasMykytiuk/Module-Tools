@@ -20,7 +20,7 @@ def main():
             path = item
     scanResult = os.scandir(path)
     isHiddenToShow = "-a" in flags
-    isStatsToList = "-l" in flags
+    isStatsToList = "-1" in flags
     content = sortDirContent(scanResult, isHiddenToShow)
 
     if not isHiddenToShow and not isStatsToList:
