@@ -39,16 +39,16 @@ async function logFilesInfo(files, flags) {
     let totalOutput = '';
     for (const fileName of files) {
         let fileOutput = '';
-        let filePath = dir + "/" + fileName;
+        const filePath = dir + "/" + fileName;
         let file;
         try {
             file = await fs.readFile(filePath, "utf-8");
         } catch (error) {
             console.log(error);
         }
-        let linesNum = countLinesInString(file);
-        let wordsNum = countWordsInString(file);
-        let bytes = file.length;
+        const linesNum = countLinesInString(file);
+        const wordsNum = countWordsInString(file);
+        const bytes = Buffer.byteLength(file, "utf-8");
         totalLines += linesNum;
         totalWords += wordsNum;
         totalBytes += bytes;
@@ -89,10 +89,7 @@ function countLinesInString(str) {
 }
 
 function countWordsInString(str) {
-    let words = str.replace(/\n/g, ' ').split(' ');
-    words = words.filter((word) => {
-        return (word != '')
-    });
-    let wordsNum = words.length;
-    return wordsNum;
+    if (!str.trim()) return 0;
+    let words = str.trim().split(/\s+/); // now take into account any whitespaces
+    return words.length;
 }
