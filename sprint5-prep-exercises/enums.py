@@ -47,27 +47,30 @@ def operating_system_laptop_num(
 
 def inputPerson() -> dict:
     name = input("Enter name: ")
-    age = int(input("Enter age: "))
-    systemStr = input("Enter preferred operating system: ")
+    age = 0
     system = None
-    for system_variant in OperatingSystem:
-        if systemStr.lower() == system_variant.name.lower():
-            system = system_variant
-    if system == None:
-        print("Incorrect operating system input.")
-        return {}
+    while True:
+        try:
+            age = int(input("Enter age: "))
+            break
+        except:
+            print("Age must be a number.")
+    while True:
+        systemStr = input("Enter preferred operating system: ")
+        for system_variant in OperatingSystem:
+            if systemStr.lower() == system_variant.name.lower():
+                system = system_variant
+        if system == None:
+            systems = ", ".join(os.value for os in OperatingSystem)
+            print("Incorrect operating system input. Select from: " + systems)
+        else:
+            break
 
     return {"name": name, "age": age, "system": system}
 
 
 def main():
-    try:
-        input = inputPerson()
-    except:
-        print("Invalid input")
-        return
-    if len(input) == 0:
-        return
+    input = inputPerson()
 
     newPerson = Person(input["name"], input["age"], input["system"])
     laptops = [
