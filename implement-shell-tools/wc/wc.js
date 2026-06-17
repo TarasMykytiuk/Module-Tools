@@ -2,13 +2,13 @@ import process from "node:process";
 import { promises as fs } from "node:fs";
 
 const argv = process.argv.slice(2, process.argv.length);
-let flag = '';
+const flags = [];
 const paths = [];
 let dir = '';
 let ending = '';
 for (let i = 0; i < argv.length; i++) {
-    if (argv[i][0] == "-") {
-        flag = argv[i];
+    if (argv[i][0] === "-") {
+        flags.push(argv[i]);
     } else {
         paths.push(argv[i]);
     }
@@ -20,7 +20,7 @@ if (paths.length > 0) {
 };
 
 const files = await resolveQuery(paths, dir, ending);
-await logFilesInfo(files, flag);
+await logFilesInfo(files, flags);
 
 async function resolveQuery(paths, dir, ending) {
     let files = [];
@@ -32,7 +32,7 @@ async function resolveQuery(paths, dir, ending) {
     return files;
 }
 
-async function logFilesInfo(files, flag) {
+async function logFilesInfo(files, flags) {
     let totalLines = 0;
     let totalWords = 0;
     let totalBytes = 0;
@@ -52,27 +52,29 @@ async function logFilesInfo(files, flag) {
         totalLines += linesNum;
         totalWords += wordsNum;
         totalBytes += bytes;
-        if (flag == "-l") {
-            fileOutput = linesNum + " " + filePath;
-        } else if (flag == "-w") {
-            fileOutput = wordsNum + " " + filePath;
-        } else if (flag == '-c') {
-            fileOutput = bytes + " " + filePath;
-        } else {
-            fileOutput = linesNum + " " + wordsNum + " " + bytes + " " + filePath;
+        if (flags.includes("-l")) {
+            fileOutput += linesNum.toString().padStart(3, " ");
         }
+        if (flags.includes("-w")) {
+            fileOutput += " " + wordsNum.toString().padStart(3, " ");
+        }
+        if (flags.includes("-c")) {
+            fileOutput += " " + bytes.toString().padStart(3, " ");
+        }
+        fileOutput += " " + filePath;
         console.log(fileOutput);
     }
     if (files.length > 1) {
-        if (flag == "-l") {
-            totalOutput = totalLines + " total";
-        } else if (flag == "-w") {
-            totalOutput = totalWords + " total";
-        } else if (flag == '-c') {
-            totalOutput = totalBytes + " total";
-        } else {
-            totalOutput = totalLines + " " + totalWords + " " + totalBytes + " total";
+        if (flags.includes("-l")) {
+            totalOutput += totalLines.toString().padStart(3, " ");
         }
+        if (flags.includes("-w")) {
+            totalOutput += " " + totalWords.toString().padStart(3, " ")
+        }
+        if (flags.includes("-c")) {
+            totalOutput += " " + totalBytes.toString().padStart(3, " ");
+        }
+        totalOutput += " total";
         console.log(totalOutput);
     }
 }
