@@ -20,10 +20,11 @@ def main():
             path = item
     scanResult = os.scandir(path)
     isHiddenToShow = "-a" in flags
-    isStatsToList = "-1" in flags
+    isShowLineByLine = "-1" in flags
+    isStatsToList = "-l" in flags
     content = sortDirContent(scanResult, isHiddenToShow)
 
-    if not isHiddenToShow and not isStatsToList:
+    if not isHiddenToShow and not isStatsToList and not isShowLineByLine:
         output = ""
         for item in content:
             output += (
@@ -32,6 +33,13 @@ def main():
                 else item.name + "  "
             )
         print(output)
+    if not isHiddenToShow and not isStatsToList and isShowLineByLine:
+        for item in content:
+            print(
+                addColorToStr("\033[34m", item.name) + "  "
+                if Path(item).is_dir()
+                else item.name + "  "
+            )
     elif isHiddenToShow and not isStatsToList:
         output = (
             addColorToStr("\033[34m", currentDir)
